@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      #canvas {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="file" id="fileInput1" accept="image/*">
+    <input type="file" id="fileInput2" accept="image/*">
+    <canvas id="canvas" width="500" height="300"></canvas>
+    <a id="downloadButton" download="mixed_image.png">Download mixed image</a>
+    <script>
+      var canvas = document.getElementById("canvas");
+      var ctx = canvas.getContext("2d");
+      
+      var fileInput1 = document.getElementById("fileInput1");
+      var fileInput2 = document.getElementById("fileInput2");
+      var downloadButton = document.getElementById("downloadButton");
+      
+      fileInput1.addEventListener("change", function() {
+        var file1 = fileInput1.files[0];
+        var reader1 = new FileReader();
+        reader1.onload = function() {
+          var img1 = new Image();
+          img1.src = reader1.result;
+          img1.onload = function() {
+            ctx.drawImage(img1, 0, 0, canvas.width, canvas.height);
+            
+            fileInput2.addEventListener("change", function() {
+              var file2 = fileInput2.files[0];
+              var reader2 = new FileReader();
+              reader2.onload = function() {
+                var img2 = new Image();
+                img2.src = reader2.result;
+                img2.onload = function() {
+                  ctx.drawImage(img2, 0, 10, canvas.width, canvas.height);
+                  downloadButton.href = canvas.toDataURL();
+                };
+              };
+              reader2.readAsDataURL(file2);
+            });
+          };
+        };
+        reader1.readAsDataURL(file1);
+      });
+    </script>
+  </body>
+</html>
