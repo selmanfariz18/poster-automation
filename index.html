@@ -17,7 +17,7 @@
         <div class="container col"><input class="btn" type="file" id="fileInput2" accept="image/*"></div>
     </div>
     <div class="container py-5">
-        <div class="text-center px-5 mx-5"><canvas id="canvas" class="row" width="300 " height="500"></canvas></div>
+        <div class="text-center px-5 mx-5"><canvas id="canvas" class="row" width="1080" height="1920"></canvas></div>
         <button class="my-3"><a id="downloadButton" class="btn row" download="mixed_image.png">Download</a></button>
     </div>
     </div>
@@ -45,7 +45,7 @@
                 var img2 = new Image();
                 img2.src = reader2.result;
                 img2.onload = function() {
-                  ctx.drawImage(img2, 50, 50, canvas.width, canvas.height);
+                  ctx.drawImage(img2, 250, 450, 600, 700);
                   downloadButton.href = canvas.toDataURL();
                 };
               };
