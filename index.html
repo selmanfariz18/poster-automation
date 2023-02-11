@@ -3,57 +3,50 @@
   <head>
     <title>Poster mixer</title>
     <style>
-      #canvas {
+      canvas {
         border: 1px solid black;
       }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
   </head>
   <body>
+    <div class="text-center py-5">
+        <input class="text-center" type="file" id="upload-overlay-image" />
+    </div>
     <div class="text-center">
-    <div class="row">
-        <div class="container col"><input class="btn" type="file" id="fileInput1" accept="image/*"></div>
-        <div class="container col"><input class="btn" type="file" id="fileInput2" accept="image/*"></div>
+        <canvas id="canvas" width="1080" height="1920"></canvas>
     </div>
-    <div class="container py-5">
-        <div class="text-center px-5 mx-5"><canvas id="canvas" class="row" width="1080" height="1920"></canvas></div>
-        <button class="my-3"><a id="downloadButton" class="btn row" download="mixed_image.png">Download</a></button>
-    </div>
+    <br />
+    <div class="text-center py-5">
+        <button id="download-canvas">Download canvas as image</button>
     </div>
     <script>
       var canvas = document.getElementById("canvas");
       var ctx = canvas.getContext("2d");
-      
-      var fileInput1 = document.getElementById("fileInput1");
-      var fileInput2 = document.getElementById("fileInput2");
-      var downloadButton = document.getElementById("downloadButton");
-      
-      fileInput1.addEventListener("change", function() {
-        var file1 = fileInput1.files[0];
-        var reader1 = new FileReader();
-        reader1.onload = function() {
-          var img1 = new Image();
-          img1.src = reader1.result;
-          img1.onload = function() {
-            ctx.drawImage(img1, 0, 0, canvas.width, canvas.height);
-            
-            fileInput2.addEventListener("change", function() {
-              var file2 = fileInput2.files[0];
-              var reader2 = new FileReader();
-              reader2.onload = function() {
-                var img2 = new Image();
-                img2.src = reader2.result;
-                img2.onload = function() {
-                  ctx.drawImage(img2, 250, 450, 600, 700);
-                  downloadButton.href = canvas.toDataURL();
-                };
-              };
-              reader2.readAsDataURL(file2);
-            });
-          };
+      var bgImage = new Image();
+      bgImage.src = "Blue Modern Achievement Poster.png";
+      var overlayImage = new Image();
+      var uploadOverlayImage = document.getElementById("upload-overlay-image");
+      uploadOverlayImage.addEventListener("change", function(e) {
+        var file = e.target.files[0];
+        var reader = new FileReader();
+        reader.onload = function(event) {
+          overlayImage.src = event.target.result;
         };
-        reader1.readAsDataURL(file1);
+        reader.readAsDataURL(file);
+      });
+      bgImage.onload = function() {
+        ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+        overlayImage.onload = function() {
+          ctx.drawImage(overlayImage, 250, 450, 600, 700);
+        };
+      };
+      var downloadCanvas = document.getElementById("download-canvas");
+      downloadCanvas.addEventListener("click", function() {
+        var link = document.createElement("a");
+        link.download = "canvas.png";
+        link.href = canvas.toDataURL();
+        link.click();
       });
     </script>
   </body>
