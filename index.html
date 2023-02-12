@@ -48,7 +48,8 @@
           var textInput=document.getElementById("text-input").value;
           ctx.font="80px Arial";
           ctx.fillStyle="white";
-          ctx.fillText(textInput,425,1250);
+          ctx.textAlign="center";
+          ctx.fillText(textInput,canvas.width/2,1250);
         };
       };
       var downloadCanvas = document.getElementById("download-canvas");
