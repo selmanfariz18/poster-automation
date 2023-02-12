@@ -1,35 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Poster mixer</title>
     <style>
       canvas {
         border: 1px solid black;
       }
     </style>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   </head>
   <body>
-    <div class="text-center py-3">
-      <h3>Enter your text first:</h3>
-      <textarea id="text-input"></textarea>
-    </div>
-    <div class="text-center py-5">
-      <h3>Select an image:</h3>
-      <input class="text-center" type="file" id="upload-overlay-image" />
-    </div>
-    <div class="text-center">
-        <canvas id="canvas" width="1080" height="1920"></canvas>
-    </div>
+    <input type="file" id="upload-overlay-image" />
+    <textarea id="text-input"></textarea>
     <br />
-    <div class="text-center py-5">
-        <button id="download-canvas">Download canvas as image</button>
-    </div>
+    <canvas id="canvas" width="500" height="300"></canvas>
+    <br />
+    <button id="download-canvas">Download canvas as image</button>
     <script>
       var canvas = document.getElementById("canvas");
       var ctx = canvas.getContext("2d");
       var bgImage = new Image();
-      var hasInput=false;
       bgImage.src = "Blue Modern Achievement Poster.png";
       var overlayImage = new Image();
       var uploadOverlayImage = document.getElementById("upload-overlay-image");
@@ -44,11 +32,11 @@
       bgImage.onload = function() {
         ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
         overlayImage.onload = function() {
-          ctx.drawImage(overlayImage, 250, 450, 600, 700);
-          var textInput=document.getElementById("text-input").value;
-          ctx.font="80px Arial";
-          ctx.fillStyle="white";
-          ctx.fillText(textInput,425,1250);
+          ctx.drawImage(overlayImage, 0, 0, canvas.width, canvas.height);
+          var textInput = document.getElementById("text-input").value;
+          ctx.font = "100px Arial";
+          ctx.fillStyle = "white";
+          ctx.fillText(textInput, 10, 50);
         };
       };
       var downloadCanvas = document.getElementById("download-canvas");
